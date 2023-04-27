@@ -10,6 +10,14 @@ const names = {
     male: ["Akio", "Daiki", "Hiroshi", "Kazuki", "Takahiro"],
     female: ["Aiko", "Emiko", "Keiko", "Miyuki", "Yuki"],
   },
+  american: {
+    male: ["James", "John", "Michael", "William", "David"],
+    female: ["Mary", "Patricia", "Jennifer", "Linda", "Elizabeth"],
+  },
+  chinese: {
+    male: ["Li", "Wang", "Zhang", "Liu", "Chen"],
+    female: ["Li", "Wang", "Zhang", "Liu", "Chen"],
+  }
 };
 
 nameForm.addEventListener("submit", (event) => {
