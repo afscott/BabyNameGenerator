@@ -26,7 +26,11 @@ nameForm.addEventListener("submit", (event) => {
   const nationality = document.getElementById("nationality").value;
   const gender = document.getElementById("gender").value;
 
-  const randomName = names[nationality][gender][Math.floor(Math.random() * names[nationality][gender].length)];
+  const randomNames = [];
+  for (let i = 0; i < 3; i++) {
+    const randomIndex = Math.floor(Math.random() * names[nationality][gender].length);
+    randomNames.push(names[nationality][gender][randomIndex]);
+  }
 
-  result.innerHTML = `<h2>Your baby's name is: ${randomName}</h2>`;
+  result.innerHTML = `<h2>Here are three name suggestions: ${randomNames.join(', ')}</h2>`;
 });
