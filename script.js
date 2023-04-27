@@ -20,17 +20,36 @@ const names = {
   }
 };
 
-nameForm.addEventListener("submit", (event) => {
+async function getGPTGeneratedName(nationality1, nationality2, gender) {
+  const prompt = `Generate a mixed-culture baby name for a family with one ${nationality1} parent and one ${nationality2} parent. The baby's gender is ${gender}.`;
+
+  const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "Authorization": `Bearer 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`, // Replace API_KEY with your actual OpenAI API key
+    },
+    body: JSON.stringify({
+      prompt,
+      max_tokens: 10,
+      n: 1,
+      stop: null,
+      temperature: 0.8,
+    }),
+  });
+
+  const data = await response.json();
+  return data.choices[0].text.trim();
+}
+
+nameForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const nationality = document.getElementById("nationality").value;
+  const nationality1 = document.getElementById("nationality1").value;
+  const nationality2 = document.getElementById("nationality2").value;
   const gender = document.getElementById("gender").value;
 
-  const randomNames = [];
-  for (let i = 0; i < 3; i++) {
-    const randomIndex = Math.floor(Math.random() * names[nationality][gender].length);
-    randomNames.push(names[nationality][gender][randomIndex]);
-  }
+  const suggestedName = await getGPTGeneratedName(nationality1, nationality2, gender);
 
-  result.innerHTML = `<h2>Here are three name suggestions: ${randomNames.join(', ')}</h2>`;
+  result.innerHTML = `<h2>Your mixed-culture baby name is: ${suggestedName}</h2>`;
 });
