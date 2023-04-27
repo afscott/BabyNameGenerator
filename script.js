@@ -21,26 +21,22 @@ const names = {
 };
 
 async function getGPTGeneratedName(nationality1, nationality2, gender) {
-  const prompt = `Generate a mixed-culture baby name for a family with one ${nationality1} parent and one ${nationality2} parent. The baby's gender is ${gender}.`;
-
-  const response = await fetch("https://api.openai.com/v1/engines/davinci-codex/completions", {
-    method: "POST",
+  const response = await fetch('http://localhost:3001/api/generate-name', {
+    method: 'POST',
     headers: {
-      "Content-Type": "application/json",
-      "Authorization": `Bearer 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`, // Replace API_KEY with your actual OpenAI API key
+      'Content-Type': 'application/json',
     },
     body: JSON.stringify({
-      prompt,
-      max_tokens: 10,
-      n: 1,
-      stop: null,
-      temperature: 0.8,
+      nationality1,
+      nationality2,
+      gender,
     }),
   });
 
   const data = await response.json();
-  return data.choices[0].text.trim();
+  return data.suggestedName;
 }
+
 
 nameForm.addEventListener("submit", async (event) => {
   event.preventDefault();
