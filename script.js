@@ -20,13 +20,16 @@ const names = {
   }
 };
 
-nameForm.addEventListener("submit", (event) => {
-  event.preventDefault();
+const surpriseBtn = document.getElementById("surprise-btn");
 
-  const nationality = document.getElementById("nationality").value;
-  const gender = document.getElementById("gender").value;
+surpriseBtn.addEventListener("click", () => {
+  const nationalities = Object.keys(names);
+  const genders = ["male", "female"];
 
-  const randomName = names[nationality][gender][Math.floor(Math.random() * names[nationality][gender].length)];
+  const randomNationality = nationalities[Math.floor(Math.random() * nationalities.length)];
+  const randomGender = genders[Math.floor(Math.random() * genders.length)];
 
-  result.innerHTML = `<h2>Your baby's name is: ${randomName}</h2>`;
+  const randomName = names[randomNationality][randomGender][Math.floor(Math.random() * names[randomNationality][randomGender].length)];
+
+  result.innerHTML = `<h2>Surprise! Your baby's name is: ${randomName} (${randomNationality}, ${randomGender})</h2>`;
 });
