@@ -20,13 +20,31 @@ const names = {
   }
 };
 
-nameForm.addEventListener("submit", (event) => {
+async function getGPTGeneratedName(nationality1, nationality2, gender) {
+  const response = await fetch('http://localhost:3001/', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      nationality1,
+      nationality2,
+      gender,
+    }),
+  });
+
+  const data = await response.json();
+  return data.suggestedName;
+}
+
+nameForm.addEventListener("submit", async (event) => {
   event.preventDefault();
 
-  const nationality = document.getElementById("nationality").value;
+  const nationality1 = document.getElementById("nationality1").value;
+  const nationality2 = document.getElementById("nationality2").value;
   const gender = document.getElementById("gender").value;
 
-  const randomName = names[nationality][gender][Math.floor(Math.random() * names[nationality][gender].length)];
+  const suggestedName = await getGPTGeneratedName(nationality1, nationality2, gender);
 
-  result.innerHTML = `<h2>Your baby's name is: ${randomName}</h2>`;
+  result.innerHTML = `<h2>Your mixed-culture baby name is: ${suggestedName}</h2>`;
 });
